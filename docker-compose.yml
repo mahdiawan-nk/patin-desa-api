@@ -1,3 +1,4 @@
+version: "3.9"
 
 services:
   fastapi:
@@ -8,21 +9,24 @@ services:
     container_name: scm_api_prod
     env_file:
       - .env
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
+    restart: always
     depends_on:
       - mongo
+    networks:
+      - scm_network
 
   mongo:
     image: mongo:6
     container_name: mongo_db_api
     restart: always
-    ports:
-      - "27017:27017"
     environment:
       MONGO_INITDB_DATABASE: scm_db_api
     volumes:
       - mongo_data:/data/db
+    networks:
+      - scm_network
 
   mongo-express:
     image: mongo-express:1.0.0-alpha.4
@@ -33,10 +37,31 @@ services:
     environment:
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: admin
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER:-admin}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASS:-admin}
     depends_on:
       - mongo
+    networks:
+      - scm_network
+
+  nginx:
+    image: nginx:1.27
+    container_name: scm_nginx_prod
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - fastapi
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/ssl/private:ro  # opsional untuk SSL
+    networks:
+      - scm_network
 
 volumes:
   mongo_data:
+
+networks:
+  scm_network:
+    driver: bridge
