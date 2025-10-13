@@ -17,6 +17,8 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload
 
 # ========= PRODUCTION =========
 FROM base AS production
+RUN adduser --disabled-password --gecos '' appuser
+USER appuser
 # Copy source
 COPY ./app ./app
 # Gunakan workers uvicorn untuk performa
