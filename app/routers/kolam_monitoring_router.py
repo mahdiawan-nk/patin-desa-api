@@ -13,10 +13,10 @@ from app.utils.converters import to_read_model
 from typing import List, Optional
 from datetime import datetime, date
 
-router = APIRouter(prefix="/kolammonitorings", tags=["monitoringskolam"])
+router = APIRouter(prefix="/kolam-monitorings", tags=["monitorings-kolam"])
 
 
-@router.post("", response_model=KolamMonitoringCreate)
+@router.post("/", response_model=KolamMonitoringCreate)
 async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
     monitoring = await create(kolam_monitoring)
     return success_response(
@@ -25,27 +25,43 @@ async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
         status_code=201,
     )
 
+
 @router.get("")
-async def list_kolam_monitoring():
-    return {
-        "message": "This endpoint is under construction.",
-        "data": None
-    }
-    # monitoring_list = await get_paginated(
-    #     page=page,
-    #     per_page=per_page,
-    #     search=q,
-    #     owner=owner,
-    #     kolam_budidaya_id=kolam_budidaya_id,
-    #     tanggal_monitoring=tanggal_monitoring,
-    # )
-    
-    # return paginated_response(
-    #     items=monitoring_list["items"],
-    #     total=monitoring_list["total"],
-    #     page=monitoring_list["page"],
-    #     per_page=monitoring_list["per_page"]
-    # )
+async def list_kolam_monitoring(
+    page: int = Query(1, ge=1),
+    per_page: int = Query(10, ge=1, le=100),
+    q: Optional[str] = Query(None, description="Search keyword"),
+    owner: Optional[str] = Query(None, description="Filter by owner"),
+    kolam_budidaya_id: Optional[str] = Query(
+        None, description="Filter by kolam budidaya"
+    ),
+    tanggal_monitoring: Optional[date] = Query(
+        None, description="Filter by tanggal monitoring"
+    ),
+):
+    try:
+        monitoring_list = await get_paginated(
+            page=page,
+            per_page=per_page,
+            search=q,
+            owner=owner,
+            kolam_budidaya_id=kolam_budidaya_id,
+            tanggal_monitoring=tanggal_monitoring,
+        )
+
+        return paginated_response(
+            items=monitoring_list["items"],
+            total=monitoring_list["total"],
+            page=monitoring_list["page"],
+            per_page=monitoring_list["per_page"],
+        )
+
+    except Exception as e:
+        # Tangkap semua error dan tampilkan detail
+        raise HTTPException(
+            status_code=500, detail=f"Error fetching kolam monitoring: {e}"
+        )
+
 
 @router.get("/{kolam_monitoring_id}")
 async def detail_monitoring(kolam_monitoring_id: str):
@@ -54,13 +70,16 @@ async def detail_monitoring(kolam_monitoring_id: str):
         raise HTTPException(status_code=404, detail="Monitoring not found")
     return success_response(message="Success", data=monitoring)
 
+
 @router.put("/{kolam_monitoring_id}")
-async def update_monitoring(kolam_monitoring_id: str, monitoring_update: KolamMonitoringUpdate):
+async def update_monitoring(
+    kolam_monitoring_id: str, monitoring_update: KolamMonitoringUpdate
+):
     monitoring = await update(kolam_monitoring_id, monitoring_update)
     return success_response(message="Success", data=monitoring)
+
 
 @router.delete("/{kolam_monitoring_id}")
 async def delete_monitoring(kolam_monitoring_id: str):
     monitoring = await delete(kolam_monitoring_id)
     return success_response(message="Success", data=monitoring)
-    
