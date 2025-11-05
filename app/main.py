@@ -24,7 +24,8 @@ app.add_middleware(
 )
 
 origins = [
-    "patindesa.com"
+    "https://patindesa.com",
+    "http://patindesa.com"
     "https://api.patindesa.com",
     "http://localhost:3000",  # Nuxt/Vue/React Dev
     "http://127.0.0.1:3000",  # kadang beda akses
