@@ -16,7 +16,7 @@ from datetime import datetime, date
 router = APIRouter(prefix="/kolammonitorings", tags=["monitoringskolam"])
 
 
-@router.post("/", response_model=KolamMonitoringCreate)
+@router.post("", response_model=KolamMonitoringCreate)
 async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
     monitoring = await create(kolam_monitoring)
     return success_response(
@@ -26,15 +26,11 @@ async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
     )
 
 @router.get("")
-async def list_kolam_monitoring(
-    page: int = Query(1, ge=1),
-    per_page: int = Query(10, ge=1, le=100),
-    q: Optional[str] = Query(None, description="Search keyword"),
-    owner: Optional[str] = Query(None, description="Filter by owner"),
-    kolam_budidaya_id: Optional[str] = Query(None, description="Filter by kolam budidaya"),
-    tanggal_monitoring: Optional[date] = Query(None, description="Filter by tanggal monitoring"),
-):
-    return success_response(message="Not implemented yet", data=[])
+async def list_kolam_monitoring():
+    return {
+        "message": "This endpoint is under construction.",
+        "data": None
+    }
     # monitoring_list = await get_paginated(
     #     page=page,
     #     per_page=per_page,
