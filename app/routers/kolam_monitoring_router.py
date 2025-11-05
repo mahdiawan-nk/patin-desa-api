@@ -25,7 +25,7 @@ async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
         status_code=201,
     )
 
-@router.get("/")
+@router.get("")
 async def list_kolam_monitoring(
     page: int = Query(1, ge=1),
     per_page: int = Query(10, ge=1, le=100),
