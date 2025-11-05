@@ -6,6 +6,7 @@ from app.routers import kolam_budidaya_router, user_router, auth_router, kolam_s
 app = FastAPI()
 
 origins = [
+    "https://api.patindesa.com",
     "http://localhost:3000",   # Nuxt/Vue/React Dev
     "http://127.0.0.1:3000",   # kadang beda akses
 ]
