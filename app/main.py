@@ -1,9 +1,15 @@
 from fastapi import FastAPI
 from app.database import init_db
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from app.routers import kolam_budidaya_router, user_router, auth_router, kolam_seeding_router, kolam_feeding_router, growth_sampling_router, harvest_estimation_router, harvest_realisation_router, kolam_monitoring_router
 
 app = FastAPI()
+
+app.add_middleware(
+    TrustedHostMiddleware, allowed_hosts=["api.patindesa.com", "localhost", "127.0.0.1"]
+)
 
 origins = [
     "https://api.patindesa.com",
