@@ -13,7 +13,7 @@ from app.utils.converters import to_read_model
 from typing import List, Optional
 from datetime import datetime, date
 
-router = APIRouter(prefix="/kolam-monitorings", tags=["monitorings-kolam"])
+router = APIRouter(prefix="/kolammonitorings", tags=["monitoringskolam"])
 
 
 @router.post("/", response_model=KolamMonitoringCreate)
@@ -26,7 +26,7 @@ async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
     )
 
 
-@router.get("/")
+@router.get("")
 async def list_kolam_monitoring(
     page: int = Query(1, ge=1),
     per_page: int = Query(10, ge=1, le=100),
