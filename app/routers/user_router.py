@@ -26,7 +26,7 @@ async def create_new_user(user_data: UserCreate):
     return success_response(message="Success", data=to_read_model(user, UserRead))
 
 
-@router.get("/", response_model=None)
+@router.get("", response_model=None)
 async def list_users(
     paginate: bool = Query(True),
     page: int = Query(1, ge=1),
