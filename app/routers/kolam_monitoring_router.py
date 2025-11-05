@@ -13,7 +13,7 @@ from app.utils.converters import to_read_model
 from typing import List, Optional
 from datetime import datetime, date
 
-router = APIRouter(prefix="/kolam-monitorings", tags=["monitorings-kolam"])
+router = APIRouter(prefix="/kolammonitorings", tags=["monitoringskolam"])
 
 
 @router.post("/", response_model=KolamMonitoringCreate)
