@@ -34,21 +34,22 @@ async def list_kolam_monitoring(
     kolam_budidaya_id: Optional[str] = Query(None, description="Filter by kolam budidaya"),
     tanggal_monitoring: Optional[date] = Query(None, description="Filter by tanggal monitoring"),
 ):
-    monitoring_list = await get_paginated(
-        page=page,
-        per_page=per_page,
-        search=q,
-        owner=owner,
-        kolam_budidaya_id=kolam_budidaya_id,
-        tanggal_monitoring=tanggal_monitoring,
-    )
+    return success_response(message="Not implemented yet", data=[])
+    # monitoring_list = await get_paginated(
+    #     page=page,
+    #     per_page=per_page,
+    #     search=q,
+    #     owner=owner,
+    #     kolam_budidaya_id=kolam_budidaya_id,
+    #     tanggal_monitoring=tanggal_monitoring,
+    # )
     
-    return paginated_response(
-        items=monitoring_list["items"],
-        total=monitoring_list["total"],
-        page=monitoring_list["page"],
-        per_page=monitoring_list["per_page"]
-    )
+    # return paginated_response(
+    #     items=monitoring_list["items"],
+    #     total=monitoring_list["total"],
+    #     page=monitoring_list["page"],
+    #     per_page=monitoring_list["per_page"]
+    # )
 
 @router.get("/{kolam_monitoring_id}")
 async def detail_monitoring(kolam_monitoring_id: str):
