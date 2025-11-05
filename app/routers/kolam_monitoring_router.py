@@ -16,7 +16,7 @@ from datetime import datetime, date
 router = APIRouter(prefix="/kolam-monitorings", tags=["monitorings-kolam"])
 
 
-@router.post("/", response_model=KolamMonitoringCreate)
+@router.post("", response_model=KolamMonitoringCreate)
 async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
     monitoring = await create(kolam_monitoring)
     return success_response(
@@ -25,7 +25,7 @@ async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
         status_code=201,
     )
 
-@router.get("/")
+@router.get("")
 async def list_kolam_monitoring(
     page: int = Query(1, ge=1),
     per_page: int = Query(10, ge=1, le=100),
@@ -50,19 +50,19 @@ async def list_kolam_monitoring(
         per_page=monitoring_list["per_page"]
     )
 
-@router.get("/{kolam_monitoring_id}")
+@router.get("{kolam_monitoring_id}")
 async def detail_monitoring(kolam_monitoring_id: str):
     monitoring = await get_by_id(kolam_monitoring_id)
     if not monitoring:
         raise HTTPException(status_code=404, detail="Monitoring not found")
     return success_response(message="Success", data=monitoring)
 
-@router.put("/{kolam_monitoring_id}")
+@router.put("{kolam_monitoring_id}")
 async def update_monitoring(kolam_monitoring_id: str, monitoring_update: KolamMonitoringUpdate):
     monitoring = await update(kolam_monitoring_id, monitoring_update)
     return success_response(message="Success", data=monitoring)
 
-@router.delete("/{kolam_monitoring_id}")
+@router.delete("{kolam_monitoring_id}")
 async def delete_monitoring(kolam_monitoring_id: str):
     monitoring = await delete(kolam_monitoring_id)
     return success_response(message="Success", data=monitoring)
