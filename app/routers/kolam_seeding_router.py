@@ -57,19 +57,19 @@ async def list_seeding(
         )
 
 
-@router.get("{seeding_id}")
+@router.get("/{seeding_id}")
 async def detail_seeding(seeding_id: str):
     kolam = await get_by_id(seeding_id)
     return success_response(message="Detail penebaran berhasil diambil", data=kolam)
 
 
-@router.put("{seeding_id}")
+@router.put("/{seeding_id}")
 async def update_seeding(seeding_id: str, data: KolamSeedingUpdate):
     kolam = await update(seeding_id, data)
     return success_response(message="Penebaran berhasil diperbarui", data=kolam)
 
 
-@router.delete("{seeding_id}")
+@router.delete("/{seeding_id}")
 async def delete_seeding(seeding_id: str):
     await delete(seeding_id)
     return success_response(message="Penebaran berhasil dihapus")

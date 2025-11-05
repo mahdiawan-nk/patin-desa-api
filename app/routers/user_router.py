@@ -26,7 +26,7 @@ async def create_new_user(user_data: UserCreate):
     return success_response(message="Success", data=to_read_model(user, UserRead))
 
 
-@router.get("", response_model=None)
+@router.get("/", response_model=None)
 async def list_users(
     paginate: bool = Query(True),
     page: int = Query(1, ge=1),
@@ -52,7 +52,7 @@ async def list_users(
         )
 
 
-@router.get("{user_id}", response_model=UserRead)
+@router.get("/{user_id}", response_model=UserRead)
 async def get_user(user_id: PydanticObjectId):
     user = await get_user_by_id(user_id)
     if not user:
@@ -60,7 +60,7 @@ async def get_user(user_id: PydanticObjectId):
     return success_response(message="Success", data=user)
 
 
-@router.put("{user_id}", response_model=UserRead)
+@router.put("/{user_id}", response_model=UserRead)
 async def update_existing_user(user_id: PydanticObjectId, user_data: UserUpdate):
     updated_user = await update_user(user_id, user_data)
     if not updated_user:
@@ -70,7 +70,7 @@ async def update_existing_user(user_id: PydanticObjectId, user_data: UserUpdate)
     )
 
 
-@router.delete("{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_existing_user(user_id: PydanticObjectId):
     deleted = await delete_user(user_id)
     if not deleted:

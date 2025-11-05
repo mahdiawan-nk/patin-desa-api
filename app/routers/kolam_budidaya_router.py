@@ -42,17 +42,17 @@ async def list_kolam(
         )
   
 
-@router.get("{kolam_id}")
+@router.get("/{kolam_id}")
 async def detail_kolam(kolam_id: str):
     kolam = await get_by_id(kolam_id)
     return success_response(message="Detail kolam berhasil diambil", data=kolam[0])
 
-@router.put("{kolam_id}")
+@router.put("/{kolam_id}")
 async def update_kolam(kolam_id: str, data: KolamBudidayaUpdate):
     kolam = await update(kolam_id, data)
     return success_response(message="Kolam berhasil diperbarui", data=kolam)
 
-@router.delete("{kolam_id}")
+@router.delete("/{kolam_id}")
 async def delete_kolam(kolam_id: str):
     await delete(kolam_id)
     return success_response(message="Kolam berhasil dihapus")
