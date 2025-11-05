@@ -15,7 +15,7 @@ from typing import List, Optional
 router = APIRouter(prefix="/feedings", tags=["feedings"])
 
 
-@router.post("/")
+@router.post("")
 async def create_feeding(data: KolamFeedingCreate):
     feeding = await create(data)
     return success_response(
@@ -23,7 +23,7 @@ async def create_feeding(data: KolamFeedingCreate):
     )
 
 
-@router.get("/")
+@router.get("")
 async def list_feeding(
     page: int = Query(1, ge=1),
     per_page: int = Query(10, ge=1, le=100),
@@ -50,19 +50,19 @@ async def list_feeding(
         )
 
 
-@router.get("/{feeding_id}")
+@router.get("{feeding_id}")
 async def detail_feeding(feeding_id: str):
     kolam = await get_by_id(feeding_id)
     return success_response(message="Detail penebaran berhasil diambil", data=kolam)
 
 
-@router.put("/{feeding_id}")
+@router.put("{feeding_id}")
 async def update_feeding(feeding_id: str, data: KolamFeedingUpdate):
     kolam = await update(feeding_id, data)
     return success_response(message="Penebaran berhasil diperbarui", data=kolam)
 
 
-@router.delete("/{feeding_id}")
+@router.delete("{feeding_id}")
 async def delete_feeding(feeding_id: str):
     await delete(feeding_id)
     return success_response(message="Penebaran berhasil dihapus")
