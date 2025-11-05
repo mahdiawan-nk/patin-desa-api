@@ -25,7 +25,7 @@ app.add_middleware(
     allow_headers=["*"],        # biar bisa kirim Authorization, Content-Type, dll
 )
 
-# app.router.redirect_slashes = False
+app.router.redirect_slashes = False
 @app.on_event("startup")
 async def startup():
     await init_db()
