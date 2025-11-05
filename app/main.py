@@ -20,10 +20,11 @@ from fastapi.requests import Request
 app = FastAPI()
 
 app.add_middleware(
-    TrustedHostMiddleware, allowed_hosts=["api.patindesa.com", "localhost", "127.0.0.1"]
+    TrustedHostMiddleware, allowed_hosts=["api.patindesa.com", "patindesa.com", "localhost", "127.0.0.1"]
 )
 
 origins = [
+    "patindesa.com"
     "https://api.patindesa.com",
     "http://localhost:3000",  # Nuxt/Vue/React Dev
     "http://127.0.0.1:3000",  # kadang beda akses
