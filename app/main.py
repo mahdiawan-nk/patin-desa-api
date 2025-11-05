@@ -7,12 +7,14 @@ from app.routers import kolam_budidaya_router, user_router, auth_router, kolam_s
 
 app = FastAPI()
 
-# app.add_middleware(
-#     TrustedHostMiddleware, allowed_hosts=["api.patindesa.com", "localhost", "127.0.0.1"]
-# )
+app.add_middleware(
+    TrustedHostMiddleware, allowed_hosts=["api.patindesa.com", "localhost", "127.0.0.1"]
+)
 
 origins = [
-    "*",   # kadang beda akses
+    "https://api.patindesa.com",
+    "http://localhost:3000",   # Nuxt/Vue/React Dev
+    "http://127.0.0.1:3000",   # kadang beda akses
 ]
 
 app.add_middleware(
@@ -22,6 +24,8 @@ app.add_middleware(
     allow_methods=["*"],        # GET, POST, PUT, DELETE, OPTIONS
     allow_headers=["*"],        # biar bisa kirim Authorization, Content-Type, dll
 )
+
+app.router.redirect_slashes = False
 @app.on_event("startup")
 async def startup():
     await init_db()
