@@ -16,7 +16,7 @@ from datetime import datetime, date
 router = APIRouter(prefix="/monitorings", tags=["monitoring"])
 
 
-@router.post("/", response_model=KolamMonitoringCreate)
+@router.post("", response_model=KolamMonitoringCreate)
 async def create_kolam_monitoring(kolam_monitoring: KolamMonitoringCreate):
     monitoring = await create(kolam_monitoring)
     return success_response(
@@ -63,7 +63,7 @@ async def list_kolam_monitoring(
         )
 
 
-@router.get("/{kolam_monitoring_id}")
+@router.get("{kolam_monitoring_id}")
 async def detail_monitoring(kolam_monitoring_id: str):
     monitoring = await get_by_id(kolam_monitoring_id)
     if not monitoring:
@@ -71,7 +71,7 @@ async def detail_monitoring(kolam_monitoring_id: str):
     return success_response(message="Success", data=monitoring)
 
 
-@router.put("/{kolam_monitoring_id}")
+@router.put("{kolam_monitoring_id}")
 async def update_monitoring(
     kolam_monitoring_id: str, monitoring_update: KolamMonitoringUpdate
 ):
@@ -79,7 +79,7 @@ async def update_monitoring(
     return success_response(message="Success", data=monitoring)
 
 
-@router.delete("/{kolam_monitoring_id}")
+@router.delete("{kolam_monitoring_id}")
 async def delete_monitoring(kolam_monitoring_id: str):
     monitoring = await delete(kolam_monitoring_id)
     return success_response(message="Success", data=monitoring)
